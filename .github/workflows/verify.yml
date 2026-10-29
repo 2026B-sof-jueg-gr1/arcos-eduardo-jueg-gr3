@@ -1,0 +1,42 @@
+name: Verify CIMA
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  gameplay:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Model tests and syntax
+        run: |
+          npm --prefix mi-primer-juego test
+          node --check mi-primer-juego/src/game.js
+          node --check mi-primer-juego/src/loader.js
+          git diff --check
+      - name: Install browser test tools
+        run: |
+          pip install -r mi-primer-juego/tests/requirements.txt
+          python -m playwright install --with-deps chromium
+      - name: Browser gameplay tests
+        env:
+          CIMA_TEST_OUTPUT: work/test-results
+        run: |
+          python3 -m http.server 8080 > /tmp/cima-server.log 2>&1 &
+          export CHROMIUM_PATH="$(python -c 'from playwright.sync_api import sync_playwright; p=sync_playwright().start(); print(p.chromium.executable_path); p.stop()')"
+          python3 mi-primer-juego/tests/browser.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: cima-browser-evidence
+          path: work/test-results
