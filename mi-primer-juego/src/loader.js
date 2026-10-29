@@ -10,6 +10,7 @@
   };
   const fail = () => {
     document.querySelector("#modal-title").textContent = "No se pudo iniciar";
+    document.querySelector("#modal-copy").hidden = false;
     document.querySelector("#modal-copy").textContent =
       "Recarga la página. Si persiste, revisa que los archivos del juego se hayan publicado completos.";
     document.querySelector("#primary").textContent = "Recargar";

@@ -21,16 +21,13 @@ const ui = Object.fromEntries(
     "charge-fill",
     "charge-label",
     "overlay",
-    "modal-tag",
     "modal-title",
     "modal-copy",
-    "modal-foot",
     "primary",
     "secondary",
     "pause",
     "sound",
     "zone-title",
-    "zone-count",
     "stage",
     "toast",
   ].map((k) => [k, $(k)]),
@@ -91,40 +88,34 @@ function modal(mode) {
   clearInput();
   ui.overlay.hidden = false;
   ui.secondary.hidden = true;
-  ui["modal-foot"].textContent = "SIN PRISAS. SIN CHECKPOINTS.";
+  ui["modal-copy"].hidden = true;
   if (mode === "paused") {
-    ui["modal-tag"].textContent = "TÓMATE UN RESPIRO";
-    ui["modal-title"].textContent = "La cima puede esperar.";
-    ui["modal-copy"].textContent =
-      "Tu ascenso está en pausa. Retoma el camino cuando quieras.";
-    ui.primary.textContent = "Continuar el ascenso ↗";
+    ui["modal-title"].textContent = "Pausa";
+    ui.primary.textContent = "Continuar";
     ui.primary.onclick = () => scene.resume();
     ui.secondary.hidden = false;
-    ui.secondary.textContent = "Empezar de nuevo";
+    ui.secondary.textContent = "Reiniciar";
     ui.secondary.onclick = () => modal("reset");
   } else if (mode === "reset") {
-    ui["modal-tag"].textContent = "VOLVER AL PRIMER PASO";
-    ui["modal-title"].textContent = "¿Otro comienzo?";
-    ui["modal-copy"].textContent =
-      "Reiniciar devuelve al pie de la torre y pone a cero el tiempo, los saltos y las caídas. Tu récord se conserva.";
-    ui.primary.textContent = "Sí, empezar de nuevo ↗";
+    ui["modal-title"].textContent = "¿Reiniciar?";
+    ui.primary.textContent = "Volver al inicio";
     ui.primary.onclick = () => scene.startRun();
     ui.secondary.hidden = false;
-    ui.secondary.textContent = "Seguir con este intento";
+    ui.secondary.textContent = "Cancelar";
     ui.secondary.onclick = () => scene.resume();
   } else if (mode === "won") {
-    ui["modal-tag"].textContent = "LA CORONA ES TUYA";
-    ui["modal-title"].textContent = "Llegaste a la cima.";
+    ui["modal-title"].textContent = "¡Cima!";
+    ui["modal-copy"].hidden = false;
     ui["modal-copy"].textContent =
-      `Cinco zonas, ${scene.jumps} saltos y ${scene.falls} caídas. Tu tiempo: ${formatTime(scene.elapsed)}. Todo ese camino ya es tuyo.`;
-    ui.primary.textContent = "Volver a intentarlo ↗";
+      `${formatTime(scene.elapsed)} · ${scene.jumps} saltos · ${scene.falls} caídas${scene.newRecord ? " · Nuevo récord" : ""}`;
+    ui.primary.textContent = "Jugar de nuevo";
     ui.primary.onclick = () => scene.startRun();
-    ui["modal-foot"].textContent = scene.newRecord
-      ? "NUEVO MEJOR TIEMPO EN ESTE DISPOSITIVO"
-      : "CADA INTENTO CUENTA.";
   }
   requestAnimationFrame(() => ui.primary.focus({ preventScroll: true }));
 }
+const viewportHeight = () =>
+  Math.round((WORLD.width * $("game").clientHeight) / $("game").clientWidth);
+
 class Climb extends Phaser.Scene {
   constructor() {
     super("Climb");
@@ -176,7 +167,7 @@ class Climb extends Phaser.Scene {
       0,
       -100,
     );
-    this.cameras.main.setScroll(0, 2700);
+    this.resetCamera();
     this.chargeRing = this.add.graphics().setDepth(4);
     this.crown = this.add.image(GOAL.x, GOAL.y - 45, "crown").setDepth(3);
     this.goalGlow = this.add
@@ -195,6 +186,15 @@ class Climb extends Phaser.Scene {
     this.paintSky(0);
     this.renderUI();
     this.bindControls();
+    this.resizeView();
+    const observer = new ResizeObserver(() => {
+      const height = viewportHeight();
+      if (this.scale.gameSize.height !== height)
+        this.scale.setGameSize(WORLD.width, height);
+      this.resizeView();
+    });
+    observer.observe($("game"));
+    this.events.once("shutdown", () => observer.disconnect());
     ui.primary.onclick = () => this.startRun();
     ui.primary.focus({ preventScroll: true });
     this.game.events.on("blur", () => this.pauseRun());
@@ -206,6 +206,27 @@ class Climb extends Phaser.Scene {
         WORLD,
         PLATFORMS,
       };
+  }
+  resizeView() {
+    const height = this.scale.gameSize.height;
+    this.cameras.main.setSize(WORLD.width, height);
+    // Reserve room above the touch controls while keeping every platform visible.
+    this.cameraBottom =
+      WORLD.ground + (80 * WORLD.width) / $("game").clientWidth;
+    this.cameras.main.setBounds(0, 0, WORLD.width, this.cameraBottom);
+    this.cameras.main.setFollowOffset(0, -Math.min(100, height / 6));
+    this.sky.setScale(1, height / 600);
+    this.paintSky(Math.max(0, this.zone));
+    if (this.state === "ready") this.resetCamera();
+  }
+  resetCamera() {
+    const bottom =
+      this.cameraBottom ??
+      WORLD.ground + (80 * WORLD.width) / $("game").clientWidth;
+    this.cameras.main.setScroll(
+      0,
+      Math.max(0, bottom - this.scale.gameSize.height),
+    );
   }
   makeTextures() {
     const g = this.make.graphics({ x: 0, y: 0, add: false });
@@ -266,7 +287,8 @@ class Climb extends Phaser.Scene {
     g.fillStyle(c.sky);
     g.fillRect(0, 0, 800, 600);
     g.fillStyle(zone === 4 ? 0xeed7a0 : 0xe9e6c7, zone === 4 ? 0.95 : 0.65);
-    g.fillCircle(646, 106, zone === 4 ? 32 : 43);
+    const sunSize = zone === 4 ? 64 : 86;
+    g.fillEllipse(646, 106, sunSize, sunSize / this.sky.scaleY);
     if (zone === 4) {
       g.fillStyle(0xe4e1cd, 0.7);
       for (let i = 0; i < 38; i++)
@@ -485,9 +507,9 @@ class Climb extends Phaser.Scene {
     this.physics.resume();
     ui.overlay.hidden = true;
     ui.pause.disabled = false;
-    ui.pause.textContent = "Ⅱ Pausa";
+    ui.pause.textContent = "Pausa";
     ui.primary.blur();
-    this.cameras.main.setScroll(0, 2700);
+    this.resetCamera();
     this.paintSky(0);
     this.renderUI();
     tone(420, 0.1);
@@ -498,7 +520,7 @@ class Climb extends Phaser.Scene {
     this.physics.pause();
     this.heldCodes.clear();
     modal("paused");
-    ui.pause.textContent = "↗ Seguir";
+    ui.pause.textContent = "Seguir";
     this.renderUI();
   }
   resume() {
@@ -509,7 +531,7 @@ class Climb extends Phaser.Scene {
     ui.overlay.hidden = true;
     ui.primary.blur();
     this.physics.resume();
-    ui.pause.textContent = "Ⅱ Pausa";
+    ui.pause.textContent = "Pausa";
   }
   win() {
     if (this.state !== "playing") return;
@@ -628,13 +650,6 @@ class Climb extends Phaser.Scene {
       ? `${Math.round(this.charge * 100)}%`
       : "LISTO";
     ui["zone-title"].textContent = `0${z + 1} · ${ZONES[z].tag}`;
-    ui["zone-count"].textContent = `0${z + 1} / 05`;
-    document.querySelectorAll("#zone-list li").forEach((li, i) => {
-      li.classList.toggle("active", i === z);
-      li.classList.toggle("visited", i < this.highestZone);
-      if (i === z) li.setAttribute("aria-current", "step");
-      else li.removeAttribute("aria-current");
-    });
   }
 }
 function toggleSound() {
@@ -651,7 +666,7 @@ new Phaser.Game({
   type: Phaser.AUTO,
   parent: "game",
   width: 800,
-  height: 600,
+  height: viewportHeight(),
   backgroundColor: "#aecad2",
   pixelArt: true,
   roundPixels: true,

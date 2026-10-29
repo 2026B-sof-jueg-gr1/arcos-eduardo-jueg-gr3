@@ -7,178 +7,79 @@
       content="width=device-width,initial-scale=1,viewport-fit=cover"
     />
     <meta name="theme-color" content="#172c35" />
-    <meta
-      name="description"
-      content="CIMA: un juego de salto de precisión. Cinco zonas, una corona y ningún checkpoint. Hecho con Phaser 3."
-    />
-    <title>CIMA — Un salto a la vez</title>
+    <meta name="description" content="CIMA: juego de salto de precisión." />
+    <title>CIMA</title>
     <link rel="icon" href="./assets/crown.svg" type="image/svg+xml" />
     <link rel="stylesheet" href="./style.css" />
   </head>
   <body>
-    <header class="header">
-      <a class="brand" href="./" aria-label="CIMA, inicio"
-        ><svg viewBox="0 0 40 32" aria-hidden="true">
-          <path d="M3 8l9 6 8-12 8 12 9-6-4 22H7z" fill="currentColor" /></svg
-        >CIMA<span class="brand-note">UN SALTO A LA VEZ</span></a
-      >
-      <div class="header-right">
-        <span class="project-tag">PHASER 3 · PRECISIÓN VERTICAL</span
-        ><a
-          href="https://github.com/A-PerfectStranger/arcos-eduardo-jueg-gr3"
-          target="_blank"
-          rel="noreferrer"
-          >Código ↗</a
-        >
-      </div>
-    </header>
-    <main>
-      <div class="intro">
-        <div>
-          <p class="eyebrow">EL CAMINO ES HACIA ARRIBA</p>
-          <h1>La corona no va a bajar.</h1>
-          <p>Carga. Apunta. Salta. Y aprende a caer.</p>
-        </div>
-        <span class="edition"
-          >01—05<br /><small>CINCO ZONAS / UNA CIMA</small></span
-        >
-      </div>
-      <div class="layout">
-        <aside class="sidebar">
-          <section class="route">
-            <div class="section-label">
-              TU ASCENSO <span id="zone-count">01 / 05</span>
-            </div>
-            <ol id="zone-list">
-              <li class="active">
-                <span>01</span>
-                <div>Pradera<small>El primer paso</small></div>
-              </li>
-              <li>
-                <span>02</span>
-                <div>Bosque<small>Raíces antiguas</small></div>
-              </li>
-              <li>
-                <span>03</span>
-                <div>Ruinas<small>Lo que queda</small></div>
-              </li>
-              <li>
-                <span>04</span>
-                <div>Cielo<small>Sobre las nubes</small></div>
-              </li>
-              <li>
-                <span>05</span>
-                <div>Cumbre<small>La última luz</small></div>
-              </li>
-            </ol>
-          </section>
-          <section class="how">
-            <p class="section-label">LA TÉCNICA</p>
-            <p>
-              <kbd>←</kbd> <kbd>→</kbd> <span>Mover / elegir dirección</span>
-            </p>
-            <p>
-              <kbd class="space">ESPACIO</kbd>
-              <span>Mantén para cargar.<br />Suelta para saltar.</span>
-            </p>
-            <div class="rule">En el aire, tu decisión ya está tomada.</div>
-            <p class="small">
-              A / D también funcionan.<br />Esc · pausa &nbsp; R · reiniciar<br />M
-              · activar o silenciar sonido
-            </p>
-          </section>
-          <div class="classic">
-            <span class="dot"></span> MODO CLÁSICO
-            <p>Sin checkpoints. Cada metro cuenta.</p>
-          </div>
-        </aside>
-        <section class="play-area" aria-label="Juego CIMA">
-          <div class="game-toolbar">
-            <span
-              ><i class="dot"></i>
-              <span id="zone-title">01 · PRADERA</span></span
-            >
-            <div>
-              <button
-                id="sound"
-                aria-label="Activar sonido"
-                aria-pressed="false"
-              >
-                Sonido OFF</button
-              ><button id="pause" aria-label="Pausar juego" disabled>
-                Ⅱ Pausa</button
-              ><button id="fullscreen" aria-label="Pantalla completa">⛶</button>
-            </div>
-          </div>
-          <div id="stage">
-            <div
-              id="game"
-              role="img"
-              aria-label="Torre de cinco zonas. Usa flechas o A y D y mantén espacio para cargar el salto."
-            ></div>
-            <div class="ingame-label">
-              <span id="altitude">000</span><small>METROS</small>
-            </div>
-            <div class="charge-indicator">
-              <span>POTENCIA</span>
-              <div><i id="charge-fill"></i></div>
-              <b id="charge-label">LISTO</b>
-            </div>
-            <div id="overlay" class="overlay">
-              <div
-                class="modal"
-                role="dialog"
-                aria-modal="true"
-                aria-labelledby="modal-title"
-              >
-                <p id="modal-tag" class="eyebrow">UNA PEQUEÑA GRAN AVENTURA</p>
-                <div class="modal-crown">♛</div>
-                <h2 id="modal-title">Un salto.<br />Otro intento.</h2>
-                <p id="modal-copy">
-                  Cinco zonas te separan de la corona. Mantén espacio para
-                  cargar y suelta para saltar. Las caídas forman parte del
-                  camino.
-                </p>
-                <button id="primary" class="primary">
-                  Empezar el ascenso <span>↗</span></button
-                ><button id="secondary" class="secondary" hidden></button>
-                <p id="modal-foot" class="modal-foot">
-                  SIN PRISAS. SIN CHECKPOINTS.
-                </p>
-              </div>
-            </div>
-            <div id="toast" role="status" aria-live="polite"></div>
-          </div>
-          <div class="touch-controls" aria-label="Controles táctiles">
-            <div>
-              <button data-touch="left" aria-label="Mover a la izquierda">
-                ←</button
-              ><button data-touch="right" aria-label="Mover a la derecha">
-                →
-              </button>
-            </div>
-            <button
-              class="touch-jump"
-              data-touch="jump"
-              aria-label="Mantener para cargar y soltar para saltar"
-            >
-              MANTÉN · SUELTA ↗
+    <main class="play-area" aria-label="Juego CIMA">
+      <div id="stage">
+        <div
+          id="game"
+          role="img"
+          aria-label="Juego de salto de precisión CIMA"
+        ></div>
+        <div class="game-toolbar">
+          <span id="zone-title">01 · PRADERA</span>
+          <div>
+            <button id="sound" aria-label="Activar sonido" aria-pressed="false">
+              Sonido OFF
             </button>
+            <button id="pause" aria-label="Pausar juego" disabled>Pausa</button>
+            <button id="fullscreen" aria-label="Pantalla completa">⛶</button>
+          </div>
+        </div>
+        <div class="ingame-label">
+          <span id="altitude">000</span><small>METROS</small>
+        </div>
+        <div class="bottom-hud">
+          <div class="charge-indicator">
+            <span>POTENCIA</span>
+            <div><i id="charge-fill"></i></div>
+            <b id="charge-label">LISTO</b>
           </div>
           <div class="stats">
             <div><span>TIEMPO</span><strong id="time">00:00</strong></div>
             <div><span>SALTOS</span><strong id="jumps">0</strong></div>
             <div><span>CAÍDAS</span><strong id="falls">0</strong></div>
-            <div><span>MEJOR TIEMPO</span><strong id="best">—</strong></div>
+            <div><span>RÉCORD</span><strong id="best">—</strong></div>
           </div>
-        </section>
+        </div>
+        <div class="touch-controls" aria-label="Controles táctiles">
+          <div>
+            <button data-touch="left" aria-label="Mover a la izquierda">
+              ←</button
+            ><button data-touch="right" aria-label="Mover a la derecha">
+              →
+            </button>
+          </div>
+          <button
+            class="touch-jump"
+            data-touch="jump"
+            aria-label="Mantener para cargar y soltar para saltar"
+          >
+            SALTAR
+          </button>
+        </div>
+        <div id="overlay" class="overlay">
+          <div
+            class="modal"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="modal-title"
+          >
+            <img class="modal-crown" src="./assets/crown.svg" alt="" />
+            <h1 id="modal-title">CIMA</h1>
+            <p id="modal-copy" hidden></p>
+            <button id="primary" class="primary">Jugar</button>
+            <button id="secondary" class="secondary" hidden></button>
+          </div>
+        </div>
+        <div id="toast" role="status" aria-live="polite"></div>
       </div>
-      <footer>
-        <span>Un pequeño caballero. Una montaña de intentos.</span
-        ><span>ASSETS GENÉRICOS · HECHO CON PHASER 3</span>
-      </footer>
     </main>
-    <noscript>Activa JavaScript para jugar a CIMA.</noscript>
+    <noscript>Activa JavaScript para jugar.</noscript>
     <script src="./src/loader.js"></script>
   </body>
 </html>

@@ -1,16 +1,22 @@
-# CIMA — Un salto a la vez
+# CIMA
 
-Juego de precisión vertical inspirado en la mecánica de Jump King, desarrollado con **Phaser 3.90.0**. Cinco zonas conectadas, 25 plataformas, salto cargado y modo clásico sin checkpoints. Arte genérico original generado con formas; sin assets del juego original.
+[Jugar en GitHub Pages](https://a-perfectstranger.github.io/arcos-eduardo-jueg-gr3/mi-primer-juego/)
 
-**Estado:** publicado en GitHub Pages y verificado en Chromium contra la URL pública.
+Juego de precisión vertical inspirado en Jump King, desarrollado con Phaser 3.90.0 y gráficos genéricos. Cinco zonas conectadas, 25 plataformas y una corona en la cima. La página muestra únicamente el juego a tamaño de ventana, con sus controles y marcadores integrados.
 
-**Jugar:** https://a-perfectstranger.github.io/arcos-eduardo-jueg-gr3/mi-primer-juego/
+## Cómo jugar
 
-[Verificación del juego publicado](https://github.com/A-PerfectStranger/arcos-eduardo-jueg-gr3/actions/runs/40891046139) · [Despliegue aprobado](https://github.com/A-PerfectStranger/arcos-eduardo-jueg-gr3/actions/runs/40891045012)
+- **← / → o A / D:** caminar en tierra y elegir la dirección del salto.
+- **Espacio:** mantener para cargar potencia y soltar para saltar. Mantén una dirección al soltar para saltar hacia ese lado; sin dirección, saltas verticalmente.
+- La dirección queda fijada al despegar: no hay control aéreo. Las paredes laterales producen rebote.
+- **Esc:** pausar o continuar. **R:** reiniciar con confirmación. **M:** activar o silenciar sonido.
+- En móvil, utiliza las flechas y mantén/suelta **SALTAR**. El botón ⛶ permite ocultar también la interfaz del navegador cuando este lo admite.
 
-El proyecto vive en [`mi-primer-juego/`](mi-primer-juego/). El `index.html` raíz lleva al juego y `.nojekyll` permite servirlo como archivos estáticos.
+Sube por **Pradera → Bosque → Ruinas → Cielo → Cumbre**. Las plataformas se estrechan progresivamente. No hay checkpoints, vidas ni daño: una caída puede devolverte a zonas anteriores. El contador registra una caída al descender más de 190 píxeles sin aterrizar. El tiempo excluye las pausas.
 
-## Ejecutar
+Aterrizar junto a la corona completa la partida. El mejor tiempo se guarda en este navegador; la posición no se guarda.
+
+## Ejecutar localmente
 
 Desde la raíz del repositorio:
 
@@ -18,59 +24,25 @@ Desde la raíz del repositorio:
 python3 -m http.server 8080
 ```
 
-Abrir http://localhost:8080/mi-primer-juego/. También se puede usar Live Server de VS Code. No abrir el HTML mediante `file://`: utiliza módulos JavaScript.
+Abre http://localhost:8080/mi-primer-juego/. También puedes usar Live Server en VS Code. Se necesita un servidor HTTP porque el juego utiliza módulos JavaScript.
 
-## Jugar
-
-- Flechas izquierda/derecha o A/D: caminar en tierra y elegir dirección al despegar.
-- Mantener espacio: cargar potencia; soltar espacio: saltar. Mantener izquierda/derecha al soltar para saltar en esa dirección; sin dirección, salto vertical.
-- En el aire no se puede dirigir al personaje. Los laterales producen rebote.
-- Esc: pausa/reanudar. R: reiniciar con confirmación. M: sonido.
-- En pantallas táctiles: botones de dirección y mantener/soltar salto.
-- Llegar a la plataforma de la corona completa la partida. Se guarda el mejor tiempo en este navegador; no se guarda una posición intermedia.
-
-## Las cinco zonas
-
-Pradera → Bosque → Ruinas → Cielo → Cumbre. Las plataformas se estrechan progresivamente. Una caída devuelve a plataformas inferiores; no hay checkpoints, vidas ni daño. El contador registra una caída cuando el descenso desde el punto más alto supera 190 píxeles sin aterrizar. El tiempo excluye las pausas.
-
-## Verificar
+## Pruebas y despliegue
 
 ```sh
 npm --prefix mi-primer-juego test
 pip install -r mi-primer-juego/tests/requirements.txt
 python -m playwright install --with-deps chromium
-```
-
-Con el servidor HTTP iniciado, ejecutar las pruebas de navegador. Si Chromium no está en `/usr/bin/chromium`, indicar `CHROMIUM_PATH` con su ruta:
-
-```sh
 CHROMIUM_PATH=/ruta/a/chromium python3 mi-primer-juego/tests/browser.py
 ```
 
-`CIMA_TEST_OUTPUT` permite elegir la carpeta de evidencias. `CIMA_URL` permite apuntar a otro servidor conservando la barra final. El modo `?qa=1` expone la escena para pruebas, no aparece en el enlace público normal. El recorrido de victoria usa entradas de teclado y la física real; no modifica las coordenadas del jugador. Las pruebas de paredes/techos usan fixtures aislados documentados.
+Las pruebas de navegador requieren el servidor local activo. Por defecto se busca Chromium en `/usr/bin/chromium`. `CIMA_TEST_OUTPUT` selecciona la carpeta de evidencias; `CIMA_URL` permite probar otra URL con barra final. `?qa=1` expone la escena para pruebas; el recorrido ganador usa entradas de teclado y física real, sin modificar la posición del personaje.
 
-[Plan y criterios](mi-primer-juego/docs/PLAN.md) · [Resultados y límites](mi-primer-juego/docs/VERIFICACION.md) · [Estado para continuar](mi-primer-juego/docs/ESTADO.md)
+Pages publica desde **main / (root)**. El HTML raíz lleva a `mi-primer-juego/`. GitHub Actions comprueba el modelo, el recorrido y los archivos públicos. Los resultados y capturas se conservan como artefactos de [las ejecuciones](https://github.com/A-PerfectStranger/arcos-eduardo-jueg-gr3/actions).
 
-## GitHub Pages — según el taller
+La verificación cubre Chromium de escritorio y emulación táctil; no se ha probado en Safari, Firefox ni móvil físico.
 
-Configuración aplicada en [Settings → Pages](https://github.com/A-PerfectStranger/arcos-eduardo-jueg-gr3/settings/pages):
+## Código
 
-1. Source: **Deploy from a branch**.
-2. Branch: **main**, carpeta **/(root)**.
-3. **Save**, esperar a que el workflow de Pages termine correctamente.
+El juego está en `mi-primer-juego/`: `src/model.js` contiene física y mapa; `src/game.js`, escena y controles; `src/loader.js`, carga de Phaser por CDN con respaldo local. No necesita compilación, backend, cuentas ni claves. Phaser conserva su [licencia MIT](mi-primer-juego/assets/vendor/PHASER-LICENSE.md).
 
-URL publicada y verificada: https://a-perfectstranger.github.io/arcos-eduardo-jueg-gr3/mi-primer-juego/
-
-La publicación la realiza el workflow que GitHub crea al activar Pages desde una rama. `.github/workflows/verify.yml` verifica el juego servido localmente en CI; `.github/workflows/production.yml` verifica los archivos públicos contra sus SHA-256 y ejecuta las 18 comprobaciones de navegador sobre la URL publicada. La suite pública llegó a la corona en 25 saltos, sin errores JavaScript. El artefacto `cima-production-evidence` contiene resultados JSON y capturas.
-
-Las pruebas cubren Chromium de escritorio y emulación táctil. Safari, Firefox y móvil físico no se han probado; ver el alcance completo en VERIFICACION.md.
-
-## Archivos y dependencias
-
-- `src/model.js`: reglas físicas, mapa y funciones puras.
-- `src/game.js`: escena Arcade, gráficos genéricos, entradas, estados y HUD.
-- `src/loader.js`: Phaser por CDN con respaldo local de la misma versión.
-- `assets/vendor/`: Phaser y licencia MIT correspondiente.
-- `tests/`: modelo y pruebas de integración Chromium.
-
-No necesita compilación, cuentas, backend ni claves. El sonido se sintetiza con Web Audio después de una interacción. Phaser conserva su [licencia MIT](mi-primer-juego/assets/vendor/PHASER-LICENSE.md).
+La explicación se mantiene únicamente en este README; se eliminó la carpeta de documentación adicional. Para continuar el desarrollo, revisar el remoto y el resultado de los workflows antes de editar.
