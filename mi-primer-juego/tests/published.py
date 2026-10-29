@@ -19,7 +19,7 @@ for name in files:
     expected = hashlib.sha256((ROOT / name).read_bytes()).hexdigest()
     # Pages/CDN publication can lag behind a successful deployment for a short time.
     error = None
-    for attempt in range(12):
+    for attempt in range(60):
         try:
             req = Request(BASE + name, headers={'Cache-Control': 'no-cache'})
             with urlopen(req, timeout=30) as response:
@@ -31,7 +31,7 @@ for name in files:
             break
         except Exception as exc:
             error = exc
-            if attempt < 11:
+            if attempt < 59:
                 time.sleep(5)
     if error:
         raise error

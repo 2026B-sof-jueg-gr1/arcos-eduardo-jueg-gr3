@@ -30,12 +30,12 @@ El usuario activó Pages desde main /(root). El conector confirma `has_pages: tr
 El despliegue [40890537515](https://github.com/A-PerfectStranger/arcos-eduardo-jueg-gr3/actions/runs/40890537515) terminó con `success`, sobre `51afab774deff7ebdef28bab3604ce3dcaf76e8d`.
 URL: https://a-perfectstranger.github.io/arcos-eduardo-jueg-gr3/mi-primer-juego/
 
-El executor local bloquea ese dominio; no se cambia ni se evita su proxy. La verificación de producción se incorpora como CI estándar de GitHub Actions en `.github/workflows/production.yml`, que se ejecuta después de un despliegue Pages exitoso.
+El executor local bloquea ese dominio; no se cambia ni se evita su proxy. La verificación de producción se incorpora como CI estándar de GitHub Actions en `.github/workflows/production.yml`, que se ejecuta en los pushes a main y espera hasta que los archivos publicados coincidan con el commit. El despliegue de Pages se comprueba por separado.
 La primera fase verifica HTTP 200 y SHA-256 de siete archivos del juego contra el commit desplegado, y el enlace de la raíz. La segunda ejecuta las 18 pruebas del navegador contra la URL pública. No confundir despliegue exitoso con pruebas de jugabilidad publicadas aprobadas: registrar ambos resultados.
 
 ## Siguiente paso concreto
 
-1. Esperar el despliegue de este commit y el workflow **Verify published CIMA**.
+1. Esperar el despliegue de este commit y el workflow **Verify published CIMA**. El workflow dinámico de Pages no disparó el evento workflow_run observado; por eso la prueba pública usa push y espera la propagación de archivos.
 2. Revisar `published-gameplay`: integridad de archivos publicados, recorrido completo y artefacto `cima-production-evidence`.
 3. Si pasa, actualizar README, VERIFICACION.md y este estado con la ejecución y SHA, y marcar el criterio 8 como cumplido. Si falla, corregir la causa real y repetir solo lo necesario.
 
