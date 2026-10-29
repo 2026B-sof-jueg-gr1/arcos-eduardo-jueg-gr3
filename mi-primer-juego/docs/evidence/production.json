@@ -1,0 +1,62 @@
+{
+  "verified_at_utc": "2026-10-29T14:24:22Z",
+  "source_commit": "399d0a90c1fb5a3e1b06040231c2b033a0576470",
+  "url": "https://a-perfectstranger.github.io/arcos-eduardo-jueg-gr3/mi-primer-juego/",
+  "pages_run": {
+    "id": 40891045012,
+    "conclusion": "success"
+  },
+  "local_ci_run": {
+    "id": 40891046099,
+    "conclusion": "success"
+  },
+  "production_ci_run": {
+    "id": 40891046139,
+    "job_id": 123507613231,
+    "conclusion": "success",
+    "artifact_id": 12905245715,
+    "artifact": "cima-production-evidence"
+  },
+  "published_files": [
+    {
+      "file": "index.html",
+      "status": 200,
+      "sha256_verified_against_source": "cb731f2dd9f86c74b37294384b06aac942cae37c0eed3f5297e85f72587bdac8"
+    },
+    {
+      "file": "style.css",
+      "status": 200,
+      "sha256_verified_against_source": "c0222957b02b9ea9ea10864eb462584d5b62db83fd26e7aca4f98ebc027ce83f"
+    },
+    {
+      "file": "src/loader.js",
+      "status": 200,
+      "sha256_verified_against_source": "bd0d5f846f0746642a31556bd5e74ffd8acbc37289f1594bd4210486245f9baf"
+    },
+    {
+      "file": "src/game.js",
+      "status": 200,
+      "sha256_verified_against_source": "119bf5aedfb6b1a3dd06135835c0590d0ce1690bec2df88f9075edf83549e32a"
+    },
+    {
+      "file": "src/model.js",
+      "status": 200,
+      "sha256_verified_against_source": "baada2390263935d1f3ff01e798b0c4ebb736716cd1978a4c0b6b560f0fea486"
+    },
+    {
+      "file": "assets/vendor/phaser.min.js",
+      "status": 200,
+      "sha256_verified_against_source": "e92ddef111ba42e92d316979c732311757093688ea1810591cb7aa2858eba7a7"
+    },
+    {
+      "file": "assets/crown.svg",
+      "status": 200,
+      "sha256_verified_against_source": "e0b9b9b5bd24d8abfa7b96fab523ac87d67144b0ce75022da7ae7325ef017c92"
+    }
+  ],
+  "root_links_to_game": true,
+  "browser_checks_passed": 18,
+  "victory_route_jumps": 25,
+  "javascript_errors": 0,
+  "method": "GitHub Actions checked public HTTP files and SHA-256, then ran tests/browser.py against CIMA_URL in Chromium. See production workflow logs and artifact for original evidence."
+}

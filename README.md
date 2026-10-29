@@ -2,7 +2,11 @@
 
 Juego de precisión vertical inspirado en la mecánica de Jump King, desarrollado con **Phaser 3.90.0**. Cinco zonas conectadas, 25 plataformas, salto cargado y modo clásico sin checkpoints. Arte genérico original generado con formas; sin assets del juego original.
 
-**Estado:** juego implementado y verificado localmente y en [GitHub Actions](https://github.com/A-PerfectStranger/arcos-eduardo-jueg-gr3/actions/runs/40887908797). La publicación en GitHub Pages todavía requiere activación y comprobación; no se presenta como desplegado.
+**Estado:** publicado en GitHub Pages y verificado en Chromium contra la URL pública.
+
+**Jugar:** https://a-perfectstranger.github.io/arcos-eduardo-jueg-gr3/mi-primer-juego/
+
+[Verificación del juego publicado](https://github.com/A-PerfectStranger/arcos-eduardo-jueg-gr3/actions/runs/40891046139) · [Despliegue aprobado](https://github.com/A-PerfectStranger/arcos-eduardo-jueg-gr3/actions/runs/40891045012)
 
 El proyecto vive en [`mi-primer-juego/`](mi-primer-juego/). El `index.html` raíz lleva al juego y `.nojekyll` permite servirlo como archivos estáticos.
 
@@ -49,15 +53,17 @@ CHROMIUM_PATH=/ruta/a/chromium python3 mi-primer-juego/tests/browser.py
 
 ## GitHub Pages — según el taller
 
-En [Settings → Pages](https://github.com/A-PerfectStranger/arcos-eduardo-jueg-gr3/settings/pages), seleccionar:
+Configuración aplicada en [Settings → Pages](https://github.com/A-PerfectStranger/arcos-eduardo-jueg-gr3/settings/pages):
 
 1. Source: **Deploy from a branch**.
 2. Branch: **main**, carpeta **/(root)**.
 3. **Save**, esperar a que el workflow de Pages termine correctamente.
 
-URL prevista, **pendiente de verificar**: https://a-perfectstranger.github.io/arcos-eduardo-jueg-gr3/mi-primer-juego/
+URL publicada y verificada: https://a-perfectstranger.github.io/arcos-eduardo-jueg-gr3/mi-primer-juego/
 
-Después de activar, comprobar que el enlace responde y cargar el juego en navegador, con sus scripts y assets. Una URL prevista o un push no acreditan el despliegue. La verificación automática del juego está en `.github/workflows/verify.yml`; la publicación la realiza el workflow que GitHub crea al activar Pages desde una rama.
+La publicación la realiza el workflow que GitHub crea al activar Pages desde una rama. `.github/workflows/verify.yml` verifica el juego servido localmente en CI; `.github/workflows/production.yml` verifica los archivos públicos contra sus SHA-256 y ejecuta las 18 comprobaciones de navegador sobre la URL publicada. La suite pública llegó a la corona en 25 saltos, sin errores JavaScript. El artefacto `cima-production-evidence` contiene resultados JSON y capturas.
+
+Las pruebas cubren Chromium de escritorio y emulación táctil. Safari, Firefox y móvil físico no se han probado; ver el alcance completo en VERIFICACION.md.
 
 ## Archivos y dependencias
 
