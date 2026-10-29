@@ -1,0 +1,39 @@
+name: Verify published CIMA
+on:
+  workflow_run:
+    workflows: ['pages build and deployment']
+    types: [completed]
+permissions:
+  contents: read
+jobs:
+  published-gameplay:
+    if: github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.workflow_run.head_sha }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Check public files match deployed source
+        env:
+          CIMA_URL: https://a-perfectstranger.github.io/arcos-eduardo-jueg-gr3/mi-primer-juego/
+        run: python3 mi-primer-juego/tests/published.py
+      - name: Install Chromium
+        run: |
+          pip install -r mi-primer-juego/tests/requirements.txt
+          python -m playwright install --with-deps chromium
+      - name: Play published build in Chromium
+        env:
+          CIMA_URL: https://a-perfectstranger.github.io/arcos-eduardo-jueg-gr3/mi-primer-juego/
+          CIMA_TEST_OUTPUT: work/production-results
+        run: |
+          export CHROMIUM_PATH="$(python -c 'from playwright.sync_api import sync_playwright; p=sync_playwright().start(); print(p.chromium.executable_path); p.stop()')"
+          python3 mi-primer-juego/tests/browser.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: cima-production-evidence
+          path: work/production-results

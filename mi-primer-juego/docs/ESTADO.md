@@ -1,6 +1,6 @@
 # Estado para continuar — CIMA
 
-Actualización: 2026-10-29. **Entrega global pendiente de GitHub Pages.**
+Actualización: 2026-10-29. **Pages activado y desplegado; comprobación del juego publicado en curso.**
 
 ## Decisiones confirmadas
 
@@ -24,21 +24,20 @@ Push confirmado: `d2e7643..26908b0 HEAD -> main`; `git ls-remote origin refs/hea
 Verificación remota: job `gameplay` de [Verify CIMA #40887908797](https://github.com/A-PerfectStranger/arcos-eduardo-jueg-gr3/actions/runs/40887908797) completado con `success`; modelo/sintaxis, instalación de Chromium, pruebas de navegador y subida de evidencia completados con éxito.
 El commit de documentación posterior incorpora esta confirmación; no modifica código del juego.
 
-## Bloqueo externo: Pages
+## GitHub Pages
 
-Consulta de repositorio por el conector GitHub confirmó `has_pages: false`.
-`git fetch` y `git push --dry-run origin HEAD:main` funcionan. El acceso CLI a `https://api.github.com` devuelve `Forbidden` por la política de red; `gh auth status` no valida su token de entorno. No se imprimieron ni extrajeron secretos.
-El conector disponible permite trabajar con repositorios, pero no ofrece una operación para configurar Pages; su fetch admite solo lecturas de endpoints aprobados y no incluye Pages. El entorno no ofrece herramienta para cambiar esa política.
+El usuario activó Pages desde main /(root). El conector confirma `has_pages: true`.
+El despliegue [40890537515](https://github.com/A-PerfectStranger/arcos-eduardo-jueg-gr3/actions/runs/40890537515) terminó con `success`, sobre `51afab774deff7ebdef28bab3604ce3dcaf76e8d`.
+URL: https://a-perfectstranger.github.io/arcos-eduardo-jueg-gr3/mi-primer-juego/
 
-No confundir permisos admin del conector con disponer de una herramienta para modificar Settings → Pages. No declarar desplegado mientras siga false o no haya build y URL comprobados.
+El executor local bloquea ese dominio; no se cambia ni se evita su proxy. La verificación de producción se incorpora como CI estándar de GitHub Actions en `.github/workflows/production.yml`, que se ejecuta después de un despliegue Pages exitoso.
+La primera fase verifica HTTP 200 y SHA-256 de siete archivos del juego contra el commit desplegado, y el enlace de la raíz. La segunda ejecuta las 18 pruebas del navegador contra la URL pública. No confundir despliegue exitoso con pruebas de jugabilidad publicadas aprobadas: registrar ambos resultados.
 
 ## Siguiente paso concreto
 
-1. Activar en https://github.com/A-PerfectStranger/arcos-eduardo-jueg-gr3/settings/pages : Source **Deploy from a branch**, **main**, **/(root)**, **Save**.
-2. Esperar y revisar el workflow automático de Pages. Si el fork tiene Actions deshabilitado, habilitarlo en Actions.
-3. Confirmar respuesta HTTP y carga de HTML/JS/assets en https://a-perfectstranger.github.io/arcos-eduardo-jueg-gr3/mi-primer-juego/ . Esa dirección es prevista, no evidencia de publicación.
-4. Ejecutar la suite con `CIMA_URL` apuntando a la URL publicada, en un entorno que permita ese dominio, o comprobar en navegador autenticado el despliegue. Recoger errores de consola y red.
-5. Actualizar README, VERIFICACION.md y este estado con URL, commit desplegado, resultado del workflow y alcance de prueba remota. Commit y push de la documentación final.
+1. Esperar el despliegue de este commit y el workflow **Verify published CIMA**.
+2. Revisar `published-gameplay`: integridad de archivos publicados, recorrido completo y artefacto `cima-production-evidence`.
+3. Si pasa, actualizar README, VERIFICACION.md y este estado con la ejecución y SHA, y marcar el criterio 8 como cumplido. Si falla, corregir la causa real y repetir solo lo necesario.
 
 ## Reproducir local
 
