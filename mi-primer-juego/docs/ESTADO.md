@@ -13,13 +13,16 @@ Actualización: 2026-10-29. **Entrega global pendiente de GitHub Pages.**
 ## Terminado
 
 Código jugable completo, cinco zonas/25 plataformas, inicio/pausa/reinicio/victoria, teclado/táctil, caída sin checkpoints, cámara, HUD, récord local, sonido opcional y pantalla completa.
-5 pruebas de modelo y 18 comprobaciones de navegador local aprobadas. Una regresión visual detectada (aviso de cumbre persistente tras reinicio) fue corregida y cubierta por la prueba de nueva partida.
+5 pruebas de modelo y 18 comprobaciones de navegador local aprobadas. La misma suite también pasó en GitHub Actions para el commit de implementación. Una regresión visual detectada (aviso de cumbre persistente tras reinicio) fue corregida y cubierta por la prueba de nueva partida.
 README y matriz de aceptación describen límites. Evidencia detallada en docs/evidence/results.json.
 
 ## Git
 
 Estado inicial: rama local work, HEAD y origin/main d2e7643; fetch antes de implementar; sin cambios previos.
-El commit de entrega y el resultado del push se añadirán aquí después de confirmarlos. No se usará force-push.
+Commit de implementación: `26908b07d179f3497eab293ebff354c4553774b5`.
+Push confirmado: `d2e7643..26908b0 HEAD -> main`; `git ls-remote origin refs/heads/main` coincide con el SHA anterior. Árbol local limpio tras el push. No se usó force-push.
+Verificación remota: job `gameplay` de [Verify CIMA #40887908797](https://github.com/A-PerfectStranger/arcos-eduardo-jueg-gr3/actions/runs/40887908797) completado con `success`; modelo/sintaxis, instalación de Chromium, pruebas de navegador y subida de evidencia completados con éxito.
+El commit de documentación posterior incorpora esta confirmación; no modifica código del juego.
 
 ## Bloqueo externo: Pages
 

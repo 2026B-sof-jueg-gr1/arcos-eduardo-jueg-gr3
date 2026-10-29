@@ -2,7 +2,7 @@
 
 Juego de precisión vertical inspirado en la mecánica de Jump King, desarrollado con **Phaser 3.90.0**. Cinco zonas conectadas, 25 plataformas, salto cargado y modo clásico sin checkpoints. Arte genérico original generado con formas; sin assets del juego original.
 
-**Estado:** juego implementado y verificado localmente. La publicación en GitHub Pages todavía requiere activación y comprobación; no se presenta como desplegado.
+**Estado:** juego implementado y verificado localmente y en [GitHub Actions](https://github.com/A-PerfectStranger/arcos-eduardo-jueg-gr3/actions/runs/40887908797). La publicación en GitHub Pages todavía requiere activación y comprobación; no se presenta como desplegado.
 
 El proyecto vive en [`mi-primer-juego/`](mi-primer-juego/). El `index.html` raíz lleva al juego y `.nojekyll` permite servirlo como archivos estáticos.
 
