@@ -1,0 +1,360 @@
+:root {
+  color-scheme: dark;
+  font-family: Arial, Helvetica, sans-serif;
+  color: #f4f0df;
+  background: #172c35;
+}
+* {
+  box-sizing: border-box;
+}
+html,
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+  overscroll-behavior: none;
+}
+button {
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+button:focus-visible {
+  outline: 2px solid #e8c47b;
+  outline-offset: 4px;
+}
+button:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+[hidden] {
+  display: none !important;
+}
+.play-area,
+#stage,
+#game {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.play-area {
+  height: 100dvh;
+  overflow: hidden;
+}
+#game canvas {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+  image-rendering: pixelated;
+}
+.game-toolbar {
+  position: absolute;
+  top: max(16px, env(safe-area-inset-top));
+  left: max(20px, env(safe-area-inset-left));
+  right: max(20px, env(safe-area-inset-right));
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  color: #f6f1df;
+  text-shadow: 0 1px 4px #102936;
+  font-size: 11px;
+  letter-spacing: 1.5px;
+}
+.game-toolbar > div {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.game-toolbar button {
+  border: 1px solid #fff3;
+  background: #172c35bd;
+  border-radius: 4px;
+  padding: 9px 12px;
+  text-shadow: none;
+  font-size: 11px;
+  letter-spacing: 0;
+  min-height: 36px;
+}
+#fullscreen {
+  font-size: 20px;
+  padding: 4px 10px;
+}
+.ingame-label {
+  position: absolute;
+  left: max(20px, env(safe-area-inset-left));
+  top: 75px;
+  color: #203943;
+  pointer-events: none;
+  text-shadow: 0 1px #fff4;
+}
+#altitude {
+  font: 36px monospace;
+  letter-spacing: -2px;
+}
+.ingame-label small {
+  display: block;
+  margin-top: 2px;
+  font-size: 8px;
+  letter-spacing: 2px;
+}
+#stage.night .ingame-label {
+  color: #f1dfb7;
+}
+.bottom-hud {
+  position: absolute;
+  bottom: max(16px, env(safe-area-inset-bottom));
+  left: max(20px, env(safe-area-inset-left));
+  right: max(20px, env(safe-area-inset-right));
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  gap: 24px;
+  pointer-events: none;
+  text-shadow: 0 1px 4px #102936;
+}
+.charge-indicator {
+  display: flex;
+  gap: 9px;
+  align-items: center;
+  font: 9px monospace;
+  padding: 10px 0;
+}
+.charge-indicator > div {
+  width: 100px;
+  height: 7px;
+  background: #172c3577;
+  border: 1px solid #fff6;
+}
+.charge-indicator i {
+  display: block;
+  width: 0;
+  height: 100%;
+  background: #f1d18a;
+}
+.charge-indicator b {
+  min-width: 34px;
+  font-weight: normal;
+}
+.stats {
+  display: flex;
+  gap: 28px;
+}
+.stats span {
+  display: block;
+  margin-bottom: 4px;
+  font-size: 8px;
+  letter-spacing: 1.5px;
+}
+.stats strong {
+  font: 20px monospace;
+}
+.touch-controls {
+  display: none;
+  position: absolute;
+  bottom: max(16px, env(safe-area-inset-bottom));
+  left: max(20px, env(safe-area-inset-left));
+  right: max(20px, env(safe-area-inset-right));
+  justify-content: space-between;
+  gap: 12px;
+  touch-action: none;
+  user-select: none;
+}
+.touch-controls > div {
+  display: flex;
+  gap: 10px;
+}
+.touch-controls button {
+  width: 60px;
+  height: 56px;
+  border: 1px solid #fff5;
+  border-radius: 8px;
+  background: #172c35b3;
+  font-size: 24px;
+  touch-action: none;
+}
+.touch-controls .touch-jump {
+  width: 104px;
+  background: #8c622fc9;
+  font-size: 11px;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+.touch-controls button.held {
+  background: #bd945a;
+}
+.overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  background: #12293877;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+}
+.modal {
+  width: min(320px, 100%);
+  padding: 28px;
+  border-radius: 8px;
+  background: #172c35eb;
+  box-shadow: 0 12px 45px #10202e66;
+  text-align: center;
+}
+.modal-crown {
+  width: 44px;
+  height: 44px;
+}
+h1 {
+  font:
+    38px Georgia,
+    serif;
+  letter-spacing: 2px;
+  margin: 12px 0 24px;
+}
+#modal-copy {
+  font-size: 13px;
+  line-height: 1.6;
+  margin: -10px 0 24px;
+  color: #c8d4ce;
+}
+.primary {
+  display: block;
+  width: 100%;
+  padding: 14px;
+  border: 0;
+  border-radius: 4px;
+  background: #e2bf7b;
+  color: #1b3039;
+  font-weight: bold;
+}
+.primary:hover {
+  background: #f1d39b;
+}
+.secondary {
+  margin-top: 18px;
+  border: 0;
+  background: none;
+  color: #d2ded7;
+  font-size: 12px;
+}
+#toast {
+  position: absolute;
+  left: 50%;
+  top: 72px;
+  max-width: 80%;
+  transform: translateX(-50%);
+  padding: 10px 16px;
+  border-radius: 4px;
+  background: #172c35df;
+  color: #f4e8cc;
+  font-size: 12px;
+  text-align: center;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+#toast.show {
+  opacity: 1;
+}
+@media (pointer: coarse), (max-width: 950px) {
+  .touch-controls {
+    display: flex;
+  }
+  .bottom-hud {
+    bottom: calc(max(16px, env(safe-area-inset-bottom)) + 72px);
+  }
+}
+@media (max-width: 600px) {
+  .game-toolbar {
+    left: 12px;
+    right: 12px;
+    gap: 8px;
+    font-size: 9px;
+    letter-spacing: 0.5px;
+  }
+  .game-toolbar > div {
+    gap: 5px;
+  }
+  .game-toolbar button {
+    padding: 8px;
+    font-size: 10px;
+  }
+  .ingame-label {
+    left: 14px;
+  }
+  #altitude {
+    font-size: 28px;
+  }
+  .bottom-hud {
+    left: 14px;
+    right: 14px;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .stats {
+    gap: 16px;
+  }
+  .stats span {
+    font-size: 7px;
+  }
+  .stats strong {
+    font-size: 16px;
+  }
+  .charge-indicator {
+    font-size: 8px;
+    padding: 0;
+  }
+  .charge-indicator > div {
+    width: 60px;
+  }
+  .touch-controls {
+    left: 14px;
+    right: 14px;
+  }
+}
+@media (max-height: 450px) {
+  .ingame-label {
+    top: 60px;
+  }
+  #altitude {
+    font-size: 24px;
+  }
+  .modal {
+    padding: 16px 24px;
+  }
+  .modal-crown {
+    display: none;
+  }
+  h1 {
+    font-size: 28px;
+    margin: 0 0 18px;
+  }
+  .bottom-hud {
+    bottom: 14px;
+    left: 160px;
+    right: 130px;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .stats {
+    gap: 14px;
+  }
+  .stats strong {
+    font-size: 16px;
+  }
+  .stats span {
+    font-size: 7px;
+  }
+  .charge-indicator {
+    padding: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+  }
+}

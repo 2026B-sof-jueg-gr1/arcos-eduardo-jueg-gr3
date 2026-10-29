@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width,initial-scale=1,viewport-fit=cover"
+    />
+    <meta name="theme-color" content="#172c35" />
+    <meta name="description" content="CIMA: juego de salto de precisión." />
+    <title>CIMA</title>
+    <link rel="icon" href="./assets/crown.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <main class="play-area" aria-label="Juego CIMA">
+      <div id="stage">
+        <div
+          id="game"
+          role="img"
+          aria-label="Juego de salto de precisión CIMA"
+        ></div>
+        <div class="game-toolbar">
+          <span id="zone-title">01 · PRADERA</span>
+          <div>
+            <button id="sound" aria-label="Activar sonido" aria-pressed="false">
+              Sonido OFF
+            </button>
+            <button id="pause" aria-label="Pausar juego" disabled>Pausa</button>
+            <button id="fullscreen" aria-label="Pantalla completa">⛶</button>
+          </div>
+        </div>
+        <div class="ingame-label">
+          <span id="altitude">000</span><small>METROS</small>
+        </div>
+        <div class="bottom-hud">
+          <div class="charge-indicator">
+            <span>POTENCIA</span>
+            <div><i id="charge-fill"></i></div>
+            <b id="charge-label">LISTO</b>
+          </div>
+          <div class="stats">
+            <div><span>TIEMPO</span><strong id="time">00:00</strong></div>
+            <div><span>SALTOS</span><strong id="jumps">0</strong></div>
+            <div><span>CAÍDAS</span><strong id="falls">0</strong></div>
+            <div><span>RÉCORD</span><strong id="best">—</strong></div>
+          </div>
+        </div>
+        <div class="touch-controls" aria-label="Controles táctiles">
+          <div>
+            <button data-touch="left" aria-label="Mover a la izquierda">
+              ←</button
+            ><button data-touch="right" aria-label="Mover a la derecha">
+              →
+            </button>
+          </div>
+          <button
+            class="touch-jump"
+            data-touch="jump"
+            aria-label="Mantener para cargar y soltar para saltar"
+          >
+            SALTAR
+          </button>
+        </div>
+        <div id="overlay" class="overlay">
+          <div
+            class="modal"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="modal-title"
+          >
+            <img class="modal-crown" src="./assets/crown.svg" alt="" />
+            <h1 id="modal-title">CIMA</h1>
+            <p id="modal-copy" hidden></p>
+            <button id="primary" class="primary">Jugar</button>
+            <button id="secondary" class="secondary" hidden></button>
+          </div>
+        </div>
+        <div id="toast" role="status" aria-live="polite"></div>
+      </div>
+    </main>
+    <noscript>Activa JavaScript para jugar.</noscript>
+    <script src="./src/loader.js"></script>
+  </body>
+</html>

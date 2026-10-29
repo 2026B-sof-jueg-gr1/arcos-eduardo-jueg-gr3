@@ -1,0 +1,12 @@
+{
+  "name": "cima-jump-king",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Cinco zonas de salto de precisión con Phaser 3",
+  "scripts": {
+    "start": "python3 -m http.server 8080",
+    "test": "node --test tests/*.test.js",
+    "test:browser": "python3 tests/browser.py"
+  }
+}
